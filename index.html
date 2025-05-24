@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Banco Vaticano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-size: 16px;
+        }
+
+        .header {
+            background-color: #d41f1f; /* rojo intenso */
+            text-align: center;
+            padding: 20px 0;
+            color: #fff;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .datetime {
+            margin-top: 10px;
+        }
+
+        .login-section {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .left-section {
+            margin-bottom: 20px;
+        }
+
+        .right-section {
+            position: relative;
+            flex: 0.7;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .right-section img {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .right-section img.active {
+            display: block;
+        }
+
+        .carousel-text {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .login-box {
+            background-color: #ffc107; /* amarillo Wells Fargo */
+            color: #000;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #d41f1f; /* rojo intenso */
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin: 2px;
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .footer {
+            background-color: #d41f1f; /* rojo intenso */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            background-color: #ffc107; /* amarillo */
+            color: #000;
+            font-weight: bold;
+        }
+
+        .carousel-button {
+            margin-top: 10px;
+            width: auto;
+        }
+
+        @media screen and (min-width: 768px) {
+            .login-section {
+                flex-direction: row;
+            }
+
+            .left-section {
+                flex: 0.3;
+                margin-right: 20px;
+            }
+
+            .right-section {
+                flex: 0.7;
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <img src="logoprin.webp" alt="Logo" class="logo">
+    <div class="datetime">
+        <span id="currentDateTime"></span>
+    </div>
+</div>
+
+<div class="login-section">
+    <div class="left-section">
+        <div class="login-box">Usuario</div>
+        <input type="text" placeholder="Ingresa tu nombre de usuario" id="usernameInput" aria-label="Usuario">
+        <div class="login-box">Contraseña (solo números)</div>
+        <input type="password" placeholder="Ingresa tu contraseña (solo números)" id="passwordInput" aria-label="Contraseña">
+        <div class="keyboard">
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+        </div>
+        <button type="submit" id="continueButton">Continuar</button>
+        <div id="error-message" style="color: red; margin-top: 10px;"></div>
+        <div>
+            <a href="#">¿Olvidaste tu nombre de usuario?</a><br>
+            <a href="#">¿Problemas para conectarte?</a>
+        </div>
+    </div>
+    <div class="right-section">
+        <a href="#" id="carouselLink">
+            <img src="img1.jpg" class="active" alt="Imagen 1">
+            <img src="img2.jpg" alt="Imagen 2">
+            <img src="img3.jpg" alt="Imagen 3">
+        </a>
+        <button class="carousel-button" onclick="showNextImage()">></button>
+    </div>
+</div>
+
+<div class="footer">
+    Información de contacto sede vaticana: Roma (+39) 01 343 00 00 - Venecia (+39) 04 510 90 00 - Vatizi 1800-653-569 <br>
+    Sucursales telefónicas: España (+34) 900 995 717 - Estados Unidos (+1) 866 379 97 14.
+</div>
+
+<script>
+    const currentDateTimeElement = document.getElementById('currentDateTime');
+
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        const formattedDateTime = now.toLocaleDateString('es-ES', options);
+        currentDateTimeElement.textContent = formattedDateTime;
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    function appendNumber(number) {
+        const passwordField = document.getElementById('passwordInput');
+        passwordField.value += number;
+    }
+
+    const users = [
+        { username: "giflo", password: "2327", fullName: "Guillermo Flores", accountNumber: "00900007882", savingsBalance: "7.975.00", checkingBalance: "0.00", notifications: ["Your recent transfer has been processed,", "Your account has been successfully updated."], transactions: [{ date: "2025-05-15", type: "savings", amount: 3975.00 },{ date: "2025-05-17", type: "savings", amount: 2000.00 },
+            { date: "2025-05-19", type: "savings", amount: 2000.00 },] },
+        { username: "Wuilmer23", password: "7882", fullName: "Wuilmer Alfredo Soriano", accountNumber: "00900007882", savingsBalance: "10.000.00", checkingBalance: "0.00", notifications: ["Account created successfully!", "Please review your recent transactions."], transactions: [{ date: "2025-05-16", type: "savings", amount: 0.00 }] },
+        { username: "Jimenezortega85", password: "8723", fullName: "Jimenez Ortega", accountNumber: "00900007882", savingsBalance: "67.445.00", checkingBalance: "0.00", notifications: ["Your account has been successfully activated.", "Your recent transfer has been processed,"], transactions: [{ date: "2025-05-16", type: "savings", amount: 0.00 }] },
+        { username: "Ezequiel23", password: "1122", fullName: "Ezequiel Hernández bautista", accountNumber: "00900007882", savingsBalance: "1.082.327", checkingBalance: "0.00", notifications: ["Your account has been successfully activated.", "Your recent transfer has been processed,"], transactions: [{ date: "2025-04-07", type: "savings", amount: 0.00 }] },
+        { username: "Arredondo23", password: "7882", fullName: "Jorge Perez Arredondo", accountNumber: "00900007882", savingsBalance: "0.00", checkingBalance: "0.00", notifications: ["Your account has been successfully activated.", "Your recent transfer has been processed,"], transactions: [{ date: "2025-04-16", type: "savings", amount: 0.00 }] },
+        { username: "Rodriguez23", password: "7788", fullName: "Tomas Rodriguez Garcia", accountNumber: "4455667788", savingsBalance: "95.500.00", checkingBalance: "0.00", notifications: ["Your account balance is running low.", "A new update is available for your account."], transactions: [{ date: "2025-04-16", type: "savings", amount: 0.00 }] },
+        { username: "Martell23", password: "8899", fullName: "Jose E Dias Martell", accountNumber: "5566778899", savingsBalance: "35,480.00", checkingBalance: "0.00", notifications: ["Your payment has been received.", "Please update your contact details."], transactions: [{ date: "2025-01-07", type: "savings", amount: 40.00 }] },
+        { username: "Soledad23", password: "6600", fullName: "Soledad Raquel Moreno Asencios", accountNumber: "6677889900", savingsBalance: "00.00", checkingBalance: "0.00", notifications: ["Your monthly payment is due in 3 days.", "Thank you for using our services."], transactions: [{ date: "2025-05-23", type: "savings", amount: 0.00 }] },
+        { username: "Jaqueline23", password: "0011", fullName: "Jaqueline Montañez Pacheco", accountNumber: "7788990011", savingsBalance: "2.0.00", checkingBalance: "0.00", notifications: ["Your profile has been successfully updated.", "Reminder: Your bill is due soon."], transactions: [{ date: "2025-04-07", type: "savings", amount: 0.00 }] },
+        { username: "Wilber23", password: "1122", fullName: "Wilber Alberto Torres Mendez", accountNumber: "8899001122", savingsBalance: "5.925.00", checkingBalance: "0.00", notifications: ["Your account is now active.", "You have a new credit card offer."], transactions: [{ date: "2025-04-23", type: "savings", amount: 1.35 }] },
+        { username: "Carlos23", password: "0011", fullName: "Carlos David Malpartida", accountNumber: "7788990011", savingsBalance: "1.0.00", checkingBalance: "0.00", notifications: ["Your profile has been successfully updated.", "Reminder: Your bill is due soon."], transactions: [{ date: "2025-01-09", type: "savings", amount: 0.00 }] }
+    ];
+
+    document.getElementById("continueButton").addEventListener("click", function () {
+        const username = document.getElementById('usernameInput').value.trim();
+        const password = document.getElementById('passwordInput').value.trim();
+        const errorMessage = document.getElementById('error-message');
+
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            const userData = {
+                username: user.username,
+                fullName: user.fullName,
+                accountNumber: user.accountNumber,
+                savingsBalance: user.savingsBalance,
+                checkingBalance: user.checkingBalance,
+                notifications: user.notifications,
+                transactions: user.transactions
+            };
+            localStorage.setItem("user", JSON.stringify(userData));
+            window.location.href = "lo.html";
+        } else {
+            errorMessage.textContent = "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.";
+        }
+    });
+
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.right-section img');
+    const imageCount = images.length;
+    const carouselLinkElement = document.getElementById('carouselLink');
+
+    const imageInfo = [
+        { src: "https://raw.githubusercontent.com/vaticanoorg/vaticanoior/main/papapresidente.jpg", link: "https://www.vaticannews.va/es.html", text: "Imagen 1" },
+        { src: "https://raw.githubusercontent.com/vaticanoorg/vaticanoior/main/papapresidente1.jpg", link: "https://www.vaticannews.va/es.html", text: "Imagen 2" },
+        { src: "https://raw.githubusercontent.com/vaticanoorg/vaticanoior/main/vcb1.jpg", link: "https://www.vaticannews.va/es.html", text: "Imagen 3" }
+    ];
+
+    function showNextImage() {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % imageCount;
+        images[currentIndex].classList.add('active');
+        carouselLinkElement.href = imageInfo[currentIndex].link;
+        images[currentIndex].alt = imageInfo[currentIndex].text;
+    }
+
+    setInterval(showNextImage, 5000);
+</script>
+</body>
+

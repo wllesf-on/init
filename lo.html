@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+  <style>
+    /* General styles */
+    body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header img {
+      width: 240px;
+      height: auto;
+    }
+
+    .notification {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .notification-dropdown {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      width: 300px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 48px;
+    }
+
+    .notification:hover .notification-dropdown {
+      display: block;
+    }
+
+    .notification-dropdown p {
+      margin: 5px 0;
+      font-size: 24px;
+    }
+
+    .logout {
+      font-size: 18px;
+      cursor: pointer;
+      background-color: rgb(162, 4, 4);
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout:hover {
+      background-color: rgb(85, 3, 3);
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .greeting {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .navbar {
+      background-color: #e9e4e4;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    .navbar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar li {
+      float: left;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .navbar li a {
+      display: block;
+      color: #333;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .navbar li a:hover {
+      background-color: #d8d2d2;
+    }
+
+    .account-details {
+      display: none;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-left: 3px solid #d2cece;
+      margin-top: 10px;
+    }
+
+    .account-details h4 {
+      margin-top: 10px;
+    }
+
+    .account-details ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .account-details ul li {
+      margin: 5px 0;
+    }
+
+    .account-link.active + .account-details {
+      display: block;
+    }
+
+    footer {
+      bottom: 0;
+      background-color: #f1f1f1;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+      font-size: 12px;
+      width: 100%;
+      color: #555;
+      text-align: center;
+      margin-top: auto;
+      position: fixed;
+    }
+
+    .footer-section img {
+      width: 20px;
+      height: auto;
+      margin-bottom: 1px;
+    }
+
+    .footer-section p {
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    /* Image container styles - adjusting layout */
+    .image-container {
+      display: flex;
+      flex-direction: column; /* changed from row to column */
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .image-box {
+      width: 100%;  /* ensure it takes up full width */
+      height: auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-box p {
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+    /* Estilo general para el mensaje de error */
+.error-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: none; /* Inicialmente oculto */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que el modal quede por encima de otros elementos */
+}
+
+.error-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.error-content p {
+  font-size: 16px;
+  color: #333;
+}
+
+.whatsapp-link {
+  color: #25d366; /* Color verde de WhatsApp */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.whatsapp-link:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para la imagen (sólo para el ejemplo) */
+.image {
+  width: 300px;
+  height: auto;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="notification">
+      <span>🔔</span>
+      <div class="notification-dropdown">
+        <!-- Las notificaciones se cargarán aquí -->
+      </div>
+    </div>
+
+    <img src="logoprinde.png" alt="Company Logo">
+
+    <button class="logout" onclick="logout()">Logout</button>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="greeting" id="greeting"></div>
+
+    <!-- Información de cuentas -->
+    <nav class="navbar">
+      <ul>
+        <li>
+          <a href="javascript:void(0);" class="account-link" data-account="savings">Savings Account</a>
+          <div class="account-details" id="savingsAccount">
+            <p><strong>Balance: <span id="savingsBalance"></span></strong></p>
+            <h4>Movements</h4>
+            <ul id="savingsTransactions"></ul>
+          </div>
+        </li>
+    
+        <li>
+          <a href="javascript:void(0);" class="account-link" data-account="checking">Checking Account</a>
+
+          <div class="account-details" id="checkingAccount">
+            <p><strong>Balance: <span id="checkingBalance"></span></strong></p>
+            <h4>Movements</h4>
+            <ul id="checkingTransactions"></ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Contenedores de imagenes con texto -->
+    <div class="image-container">
+      <div class="image-box">
+        <img src="merrilab.jpg" alt="Click me" class="image">
+        <p>Your advisor, your plan, your path forward — take on tomorrow with Merrill.</p>
+      </div>
+      <div class="image-box">
+        <img src="zerrel.jfif" alt="Click me" class="image">
+        <p>Zelle® is a great way to send money to friends and family, even if they bank somewhere different than you do</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-section">
+      <img src="money-send-svgrepo-com.svg" alt="Click me" class="image">
+      <p>money transfer</p>
+    </div>
+    <div class="footer-section">
+      <img src="credit-cards-svgrepo-com.svg" alt="Click me"  class="image">
+      <p>products</p>
+    </div>
+    <div class="footer-section">
+      <img src="cheque-svgrepo-com.svg" alt="Click me" class="image">
+      <p>checking</p>
+    </div>
+  </footer>
+  <div id="error-message" class="error-message">
+    <div class="error-content">
+      <p>No se ha podido acceder a esta acción. Su cuenta se encuentra bloqueada. <br> Por favor, comuníquese con un agente de soporte vía 
+        <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-link">aquí</a>.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const user = JSON.parse(window.localStorage.getItem("user"));
+      const greetingText = document.getElementById("greeting");
+      const notificationDropdown = document.querySelector('.notification-dropdown');
+
+      // Función para capitalizar la primera letra
+      function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+      // Función para cargar detalles de la cuenta
+      function loadAccountDetails(type, transactions, balance) {
+        const balanceElement = document.getElementById(type + 'Balance');
+        if (balanceElement) {
+          balanceElement.textContent = `$${balance}`;
+        }
+
+        const transactionsContainer = document.getElementById(type + 'Transactions');
+        if (transactionsContainer) {
+          transactionsContainer.innerHTML = '';
+          if (Array.isArray(transactions) && transactions.length > 0) {
+            transactions.forEach(transaction => {
+              const transactionElement = document.createElement("li");
+              transactionElement.textContent = `${capitalizeFirstLetter(transaction.type)}: $${transaction.amount} - ${transaction.date}`;
+              transactionsContainer.appendChild(transactionElement);
+            });
+          } else {
+            const noTransactions = document.createElement("li");
+            noTransactions.textContent = "No transactions available.";
+            transactionsContainer.appendChild(noTransactions);
+          }
+        }
+      }
+
+      // Función para cargar las notificaciones
+      function loadNotifications(notifications) {
+        if (!notificationDropdown) return;
+
+        notificationDropdown.innerHTML = "";
+        if (Array.isArray(notifications) && notifications.length > 0) {
+          notifications.forEach(notification => {
+            const p = document.createElement("p");
+            p.textContent = notification;
+            notificationDropdown.appendChild(p);
+          });
+        } else {
+          const p = document.createElement("p");
+          p.textContent = "No notifications available.";
+          notificationDropdown.appendChild(p);
+        }
+      }
+
+      // Función para alternar la visibilidad de las cuentas
+      function toggleAccount(account) {
+        const accountDetails = document.getElementById(account + 'Account');
+        if (accountDetails.style.display === "block") {
+          accountDetails.style.display = "none";
+        } else {
+          accountDetails.style.display = "block";
+        }
+      }
+
+      // Función de logout
+      function logout() {
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
+      }
+
+      // Cargar la información del usuario y mostrar el saludo
+      if (user) {
+        const now = new Date();
+        const hours = now.getHours();
+        if (hours >= 5 && hours < 12) {
+          greetingText.textContent = `Good Morning, ${user.fullName}!`;
+        } else if (hours >= 12 && hours < 18) {
+          greetingText.textContent = `Good Afternoon, ${user.fullName}!`;
+        } else {
+          greetingText.textContent = `Good Evening, ${user.fullName}!`;
+        }
+
+        // Cargar detalles de las cuentas
+        loadAccountDetails('savings', user.transactions.filter(t => t.type === 'savings'), user.savingsBalance);
+        loadAccountDetails('checking', user.transactions.filter(t => t.type === 'checking'), user.checkingBalance);
+
+        // Cargar notificaciones
+        loadNotifications(user.notifications);
+
+        // Añadir el evento de logout
+        const logoutButton = document.querySelector(".logout");
+        if (logoutButton) {
+          logoutButton.addEventListener("click", logout);
+        }
+
+        // Añadir eventos de clic para alternar la visibilidad de las cuentas
+        const savingsLink = document.querySelector('.account-link[data-account="savings"]');
+        const checkingLink = document.querySelector('.account-link[data-account="checking"]');
+
+        if (savingsLink) {
+          savingsLink.addEventListener('click', function () {
+            toggleAccount('savings');
+          });
+        }
+
+        if (checkingLink) {
+          checkingLink.addEventListener('click', function () {
+            toggleAccount('checking');
+          });
+        }
+      } else {
+        window.location.href = "login.html";
+      }
+      // Obtén el modal y la imagen
+const errorMessage = document.getElementById("error-message");
+const image = document.querySelectorAll(".image");
+
+// Muestra el mensaje de error cuando se hace clic en la imagen
+image.forEach(image => {
+image.addEventListener("click", function() {
+  errorMessage.style.display = "flex"; // Muestra el modal
+});
+});
+
+// Cierra el mensaje de error cuando se hace clic fuera del cuadro
+errorMessage.addEventListener("click", function(event) {
+  if (event.target === errorMessage) {
+    errorMessage.style.display = "none"; // Oculta el modal
+  }
+});
+
+    });
+  </script>
+</body>
+</html>
